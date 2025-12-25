@@ -1,10 +1,9 @@
 import { Pool } from "pg";
-
+import config from "../config/config";
 
 export const pool = new Pool({
-  connectionString: "postgresql://neondb_owner:npg_67bOKxmGDdUc@ep-mute-salad-ah0ytpiq-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-  
-
+  connectionString: config.dbUrl,
+  ssl: { rejectUnauthorized: false }
 });
 
 export const initDB = async () => {

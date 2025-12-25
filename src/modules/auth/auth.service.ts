@@ -1,6 +1,6 @@
 import { pool } from "../../db/index";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import config from "../../config";
 
 interface SignupInput {
@@ -41,10 +41,10 @@ export const signin = async ({ email, password }: SigninInput) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match) throw new Error("Invalid credentials");
 
-  const token = jwt.sign(
+  const token = (jwt as any).sign(
     { userId: user.id, role: user.role },
-    config.jwtSecret,
-    { expiresIn: config.jwtExpiresIn }
+    String(config.jwtSecret),
+    { expiresIn: config.jwtExpiresIn as any }
   );
 
   return {
